@@ -3,31 +3,35 @@
 <head>
   <meta charset="utf-8">
   <script src="https://d3js.org/d3.v4.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
-  </style>
 </head>
 
 <body>
-  <script>
 
-    var svg = d3.select("body").append("svg")
-      .attr("width", 960)
-      .attr("height", 500)
+  <svg>
+    <rect />
+    <rect />
+    <rect />
+    <rect />
+    <rect />
+  </svg>
 
-    svg.append("text")
-      .text("Edit me!")
-      .attr("y", 200)
-      .attr("x", 120)
-      .attr("font-size", 36)
-      .attr("font-family", "monospace")
-
-  </script>
 </body>
+
+<script>
+  var data = [100, 224, 187, 124, 80, 200]
+
+  d3.selectAll('rect')
+    .data(data)
+    .attr('x', function (d, i) {
+      return i * rectWidth
+    })
+    .attr('y', function (d) {
+      height - d
+    })
+    .attr('width', rectWidth)
+    .attr('height', function (d) {
+      return d
+    })
+    .attr('fill', 'blue')
+    .attr('stroke', '#fff')
+</script>
