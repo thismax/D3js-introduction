@@ -28,27 +28,31 @@
     var height = 300;
     var margin = { top: 20, bottom: 20, left: 20, right: 20 };
 
+    var city = 'Austin';
+    var width = 800;
+    var height = 300;
+    var margin = { top: 20, bottom: 20, left: 20, right: 20 };
+
     // dataset of city temperatures across time
     d3.tsv('data.tsv', function (err, data) {
       // clean the data
       data.forEach(function (d) {
-        d.date = d3.timeParse("%Y%m%d")(d.date);
+        d.date = d3.timeParse('%Y%m%d')(d.date);
         d.date = new Date(d.date); // x
         d[city] = ++d[city]; // y
       });
 
-      var xExtent = d3.extent(data, function (d) { return d.date })
-      var xScale = d3.scaleTime()
+      var xExtent = d3.extent(data, function (d) {
+        return d.date;
+      });
+      var xScale = d3
+        .scaleTime()
         .domain(xExtent)
-        .range([margin.left, width - margin.right])
+        .range([margin.left, width - margin.right]);
 
-      var yMax = d3.max(data, function (d) { return d[city] })
-
-
+      var yMax = d3.max(data, function (d) {
+        return d[city];
+      });
     });
-
-
-
-
   </script>
 </body>
