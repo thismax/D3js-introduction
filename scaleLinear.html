@@ -21,29 +21,34 @@
 </head>
 
 <body>
+  <svg></svg>
+  <script>
+    var city = 'Austin';
+    var width = 800;
+    var height = 300;
+    var margin = { top: 20, bottom: 20, left: 20, right: 20 };
 
-  <svg>
-  </svg>
+    // dataset of city temperatures across time
+    d3.tsv('data.tsv', function (err, data) {
+      // clean the data
+      data.forEach(function (d) {
+        d.date = d3.timeParse("%Y%m%d")(d.date);
+        d.date = new Date(d.date); // x
+        d[city] = ++d[city]; // y
+      });
 
+      var xExtent = d3.extent(data, function (d) { return d.date })
+      var xScale = d3.scaleTime()
+        .domain(xExtent)
+        .range([margin.left, width - margin.right])
+
+      var yMax = d3.max(data, function (d) { return d[city] })
+
+
+    });
+
+
+
+
+  </script>
 </body>
-
-<script>
-
-  var rectWidth = 100;
-  var height = 300;
-  var data = [100, 224, 187, 124, 200];
-
-  var extent = d3.extent(data, function (d) { return d });
-  var yScale = d3.scaleLinear()
-    .domain(extent)
-    .range([height, 0]);
-
-  var yAxis = d3.axisLeft()
-    .scale(yScale);
-
-  d3.select('svg')
-    .append('g')
-    .attr('transform', 'translate(40, 20)')
-    .call(yAxis);
-
-</script>
