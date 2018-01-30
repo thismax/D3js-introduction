@@ -23,23 +23,60 @@
 <body>
   <svg></svg>
   <script>
+
     var city = 'Austin';
     var width = 800;
     var height = 300;
     var margin = { top: 20, bottom: 20, left: 20, right: 20 };
 
     // dataset of city temperatures across time
-    d3.tsv('data.tsv', (err, data) => {
+    d3.tsv('data.tsv', function (err, data) {
       // clean the data
-      data.forEach(d => {
-        d.date = d3.timeParse("%Y%m%d")(d.date);
+      data.forEach(function (d) {
+        d.date = d3.timeParse('%Y%m%d')(d.date);
         d.date = new Date(d.date); // x
         d[city] = ++d[city]; // y
       });
 
-      // scales
+      var xExtent = d3.extent(data, function (d) {
+        return d.date;
+      });
+      var xScale = d3
+        .scaleTime()
+        .domain(xExtent)
+        .range([margin.left, width - margin.right]);
 
+      var yMax = d3.max(data, function (d) {
+        return d[city];
+      });
+      var yScale = d3
+        .scaleLinear()
+        .domain([0, yMax])
+        .range(height - margin.bottom, margin.top)
+      var heightScale = d3
+        .scaleLinear()
+        .domain([0, yMax])
+        .range([0, height - margin.top - margin.bottom])
 
+      var rect = svg
+        .selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('width', 2)
+        .attr('height', function (d) {
+          return heightScale(d[city]);
+        })
+        .attr('x', function (d) {
+          return xScale(d.date);
+        })
+        .attr('y', function (d) {
+          return d[city];
+        })
+        .attr('fill', 'blue')
+        .attr('stroke', 'white');
     });
+
+
   </script>
 </body>
