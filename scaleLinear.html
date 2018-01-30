@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <svg>
+  </svg>
+
+</body>
+
+<script>
+
+  var rectWidth = 100;
+  var height = 300;
+  var data = [100, 224, 187, 124, 200];
+
+  var extent = d3.extent(data, function (d) { return d });
+  var yScale = d3.scaleLinear()
+    .domain(extent)
+    .range([height, 0]);
+
+  var yAxis = d3.axisLeft()
+    .scale(yScale);
+
+  d3.select('svg')
+    .append('g')
+    .attr('transform', 'translate(40, 20)')
+    .call(yAxis);
+
+</script>
